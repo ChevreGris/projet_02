@@ -2,20 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def product_rating(rating):
-    if ("One") in rating:
-        rating = "1/5"
-    elif ("Two") in rating:
-        rating = "2/5"
-    elif ("Three") in rating:
-        rating = "3/5"
-    elif ("Four") in rating:
-        rating = "4/5"
-    elif ("Five") in rating:
-        rating = "5/5"
-    else:
-        rating = None
-    return rating
+
 
 
 
@@ -68,3 +55,18 @@ def get_book_info(url_book):
         #print(titre.text + ',' + categorie.text + ',' + url_book + ',' + universal_product_code.text + ',' + price_excluding_tax.text + ',' + price_including_tax.text + ',' + number_available.text + ',' + descripts.text + ',' + image_url + ',' + rating)
 
 #comment faire sortir le resultat sur une ligne, et séparé par une virgule?
+
+def product_rating(rating):
+    if ("One") in rating:
+        rating = "1/5"
+    elif ("Two") in rating:
+        rating = "2/5"
+    elif ("Three") in rating:
+        rating = "3/5"
+    elif ("Four") in rating:
+        rating = "4/5"
+    elif ("Five") in rating:
+        rating = "5/5"
+    else:
+        rating = None
+    return rating
