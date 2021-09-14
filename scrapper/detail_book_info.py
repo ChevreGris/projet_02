@@ -20,10 +20,10 @@ def product_rating(rating):
 
 
 
-def get_book_info(url):
+def get_book_info(url_book):
 
 
-    response = requests.get (url)
+    response = requests.get (url_book)
 
 
     if response.ok:
@@ -51,9 +51,9 @@ def get_book_info(url):
         image_url = image_incomplete_url3.replace('</div>', '')
 
         rating = product_rating(str(soup.find("p", class_="star-rating")))
+    
 
-
-        print('Page url : ' + url)
+        print('Page url : ' + url_book)
         print('UPC : ' + universal_product_code.text)
         print('PRIX HT : ' + price_including_tax.text)
         print('PRIX TTC : ' + price_excluding_tax.text)
@@ -63,5 +63,8 @@ def get_book_info(url):
         print('DESCRIPTION : ' + descript.text)
         print('url image ' + image_url)
         print('Note : ' + rating)
-        
-        
+
+        #return{titre,categorie,url_book,universal_product_code,price_excluding_tax,price_including_tax,number_available,descripts,image_url,rating}
+        #print(titre.text + ',' + categorie.text + ',' + url_book + ',' + universal_product_code.text + ',' + price_excluding_tax.text + ',' + price_including_tax.text + ',' + number_available.text + ',' + descripts.text + ',' + image_url + ',' + rating)
+
+#comment faire sortir le resultat sur une ligne, et séparé par une virgule?
