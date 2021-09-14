@@ -2,16 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 
 
-
-
-
-
-
 def get_book_info(url_book):
-
-
     response = requests.get (url_book)
-
 
     if response.ok:
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -19,7 +11,10 @@ def get_book_info(url_book):
         universal_product_code = tds[0]
         price_including_tax = tds[2]
         price_excluding_tax = tds[3]
-        number_available = tds[5]
+        number_available_raw = tds[5]
+        number_available_str = str(number_available_raw)
+        number_available_incomplete = number_available_str.replace('<td>In stock (','')
+        number_available = number_available_incomplete.replace(' available)</td>','')
 
         titres = soup.findAll('h1')
         titre = titres[0]
@@ -44,11 +39,11 @@ def get_book_info(url_book):
         print('UPC : ' + universal_product_code.text)
         print('PRIX HT : ' + price_including_tax.text)
         print('PRIX TTC : ' + price_excluding_tax.text)
-        print('STOCK : ' + number_available.text)
+        print('STOCK : ' + number_available)
         print('TITRE : ' + titre.text)
         print('CATEGORIE : ' + categorie.text)
         print('DESCRIPTION : ' + descript.text)
-        print('url image ' + image_url)
+        print('url image : ' + image_url)
         print('Note : ' + rating)
 
         #return{titre,categorie,url_book,universal_product_code,price_excluding_tax,price_including_tax,number_available,descripts,image_url,rating}
