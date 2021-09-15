@@ -9,12 +9,21 @@ def get_book_info(url_book):
         soup = BeautifulSoup(response.text, 'html.parser')
         tds = soup.findAll('td')
         universal_product_code = tds[0]
-        price_including_tax = tds[2]
-        price_excluding_tax = tds[3]
+
+        price_including_tax_raw = tds[2]
+        pit1 = price_including_tax_raw.text
+        pit2 = pit1.replace('Â£', '')
+        price_including_tax = float(pit2)
+
+        price_excluding_tax_raw = tds[3]
+        pet1 = price_excluding_tax_raw.text
+        pet2 = pet1.replace('Â£', '')
+        price_excluding_tax = float(pet2)
+
         number_available_raw = tds[5]
         number_available_str = str(number_available_raw)
         number_available_incomplete = number_available_str.replace('<td>In stock (','')
-        number_available = number_available_incomplete.replace(' available)</td>','')
+        number_available = int(number_available_incomplete.replace(' available)</td>',''))
 
         titres = soup.findAll('h1')
         titre = titres[0]
@@ -35,33 +44,20 @@ def get_book_info(url_book):
         rating = product_rating(str(soup.find("p", class_="star-rating")))
     
 
-        print('Page url : ' + url_book)
-        print('UPC : ' + universal_product_code.text)
-        print('PRIX HT : ' + price_including_tax.text)
-        print('PRIX TTC : ' + price_excluding_tax.text)
-        print('STOCK : ' + number_available)
-        print('TITRE : ' + titre.text)
-        print('CATEGORIE : ' + categorie.text)
-        print('DESCRIPTION : ' + descript.text)
-        print('url image : ' + image_url)
-        print('Note : ' + rating)
-
-        #return{titre,categorie,url_book,universal_product_code,price_excluding_tax,price_including_tax,number_available,descripts,image_url,rating}
-        #print(titre.text + ',' + categorie.text + ',' + url_book + ',' + universal_product_code.text + ',' + price_excluding_tax.text + ',' + price_including_tax.text + ',' + number_available.text + ',' + descripts.text + ',' + image_url + ',' + rating)
-
-#comment faire sortir le resultat sur une ligne, et séparé par une virgule?
+        informations_livre = {'titre' : titre.text , 'upc' : universal_product_code.text , 'note' : rating , 'categorie' : categorie.text , 'page_url' : url_book , 'image_url' : image_url , 'prix_ht_in_£' : price_excluding_tax, 'prix_ttc_in_£' : price_including_tax , 'stock' : number_available , 'description' : descript.text }
+        return informations_livre
 
 def product_rating(rating):
     if ("One") in rating:
-        rating = "1/5"
+        rating = 1
     elif ("Two") in rating:
-        rating = "2/5"
+        rating = 2
     elif ("Three") in rating:
-        rating = "3/5"
+        rating = 3
     elif ("Four") in rating:
-        rating = "4/5"
+        rating = 4
     elif ("Five") in rating:
-        rating = "5/5"
+        rating = 5
     else:
         rating = None
     return rating
