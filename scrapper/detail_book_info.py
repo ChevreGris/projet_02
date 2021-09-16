@@ -8,44 +8,33 @@ def get_book_info(url_book):
     if response.ok:
         soup = BeautifulSoup(response.text, 'html.parser')
         tds = soup.findAll('td')
-        universal_product_code = tds[0]
 
-        price_including_tax_raw = tds[2]
-        pit1 = price_including_tax_raw.text
-        pit2 = pit1.replace('Â£', '')
-        price_including_tax = float(pit2)
+        universal_product_code = tds[0].text
 
-        price_excluding_tax_raw = tds[3]
-        pet1 = price_excluding_tax_raw.text
-        pet2 = pet1.replace('Â£', '')
-        price_excluding_tax = float(pet2)
+        price_including_tax = float(tds[2].text.replace('Â£', ''))
 
-        number_available_raw = tds[5]
-        number_available_str = str(number_available_raw)
-        number_available_incomplete = number_available_str.replace('<td>In stock (','')
-        number_available = int(number_available_incomplete.replace(' available)</td>',''))
+        price_excluding_tax = float(tds[3].text.replace('Â£', ''))
 
-        titres = soup.findAll('h1')
-        titre = titres[0]
+        number_available_str = str(tds[5])
+        number_available_int = int(number_available_str.replace('<td>In stock (','').replace(' available)</td>',''))
+
+        titre = soup.findAll('h1')[0].text
     
-        descripts = soup.findAll('p')
-        descript = descripts[3]
+        descript = soup.findAll('p')[3].text
 
-        categories = soup.findAll('a')
-        categorie = categories[3]
+        categorie = soup.findAll('a')[3].text
     
-        image = soup.find(class_='item active')
-        image_str = str(image)
-        image_incomplete_url1 = image_str.replace('<div class="item active">','')
-        image_incomplete_url2 = image_incomplete_url1.replace('<img alt="Tipping the Velvet" src="../..', 'http://books.toscrape.com')
-        image_incomplete_url3 = image_incomplete_url2.replace('"/>','')
-        image_url = image_incomplete_url3.replace('</div>', '')
-
+        img = soup.find(class_='item active').find('img')
+        image_url = img['src'].replace('../../', 'https://books.toscrape.com/')
+        
         rating = product_rating(str(soup.find("p", class_="star-rating")))
     
+    
 
-        informations_livre = {'titre' : titre.text , 'upc' : universal_product_code.text , 'note' : rating , 'categorie' : categorie.text , 'page_url' : url_book , 'image_url' : image_url , 'prix_ht_in_£' : price_excluding_tax, 'prix_ttc_in_£' : price_including_tax , 'stock' : number_available , 'description' : descript.text }
+        informations_livre = {'titre' : titre , 'upc' : universal_product_code , 'note' : rating , 'categorie' : categorie , 'page_url' : url_book , 'image_url' : image_url , 'prix_ht_in_£' : price_excluding_tax, 'prix_ttc_in_£' : price_including_tax , 'stock' : number_available_int , 'description' : descript }
         return informations_livre
+
+
 
 def product_rating(rating):
     if ("One") in rating:
