@@ -1,7 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-
+#"""
+#fonction qui retourne toutes les infos demandées d'une page d'un livre.
 def get_book_info(url_book):
     response = requests.get (url_book)
 
@@ -33,9 +34,10 @@ def get_book_info(url_book):
 
         informations_livre = {'titre' : titre , 'upc' : universal_product_code , 'note' : rating , 'categorie' : categorie , 'page_url' : url_book , 'image_url' : image_url , 'prix_ht_in_£' : price_excluding_tax, 'prix_ttc_in_£' : price_including_tax , 'stock' : number_available_int , 'description' : descript }
         return informations_livre
+#"""
 
-
-
+#"""
+#fonction qui retourne la note d'un livre en int.
 def product_rating(rating):
     if ("One") in rating:
         rating = 1
@@ -50,3 +52,4 @@ def product_rating(rating):
     else:
         rating = None
     return rating
+    #"""
