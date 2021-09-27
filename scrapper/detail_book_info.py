@@ -26,6 +26,7 @@ def get_book_info(url_book):
         rating = product_rating(str(soup.find("p", class_="star-rating")))
 
         download_image(image_url, title, category)
+        print(category + ' : ' + title)
 
         book_data = {'Titre': title, 'UPC': universal_product_code,
                      'Note': rating, 'Categorie': category,
@@ -34,6 +35,7 @@ def get_book_info(url_book):
                      'Prix_ttc_en_£': price_including_tax,
                      'Stock': number_available_int, 'Description': description}
         return book_data
+        
 
 
 def product_rating(rating):
