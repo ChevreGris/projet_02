@@ -60,6 +60,9 @@ def download_image(image_url, title, category_name):
     response = requests.get(image_url)
 
     file = open('Script_results/' + category_name + '/'
-                + title.replace('/', ' ') + '.jpg', "wb")
+                + title.replace('/', ' ').replace('\\', ' ').replace(':', ' ')
+                .replace('*', ' ').replace('"', ' ').replace('?', ' ')
+                .replace('<', ' ').replace('>', ' ').replace('|', ' ')
+                 + '.jpg', "wb")
     file.write(response.content)
     file.close()

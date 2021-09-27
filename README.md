@@ -1,4 +1,5 @@
 Projet 02 du cursus Python d'OpenClassrooms, 2021.
+Ce script à été fait sur mac os, et testé sur windows et mac os.
 
 # BookScraper
 
@@ -17,3 +18,4 @@ python scrapper/__main__.py
 ```
 
 Les données se retrouve dans le dossier `Script_results` du répertoire courant.
+

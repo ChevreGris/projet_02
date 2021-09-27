@@ -15,7 +15,7 @@ if __name__ == '__main__':
     for category_url, category_name in get_category_urls_and_names(main_url):
         os.mkdir('Script_results/' + category_name)
         with open('Script_results/' + category_name + '/_' + category_name
-                  + '.csv', 'w', newline='') as csvfile:
+                  + '.csv', 'w', newline='', encoding="utf-8") as csvfile:
             fieldnames = ['Titre', 'UPC', 'Note', 'Categorie', 'Page_url',
                           'Image_url', 'Prix_ht_en_£', 'Prix_ttc_en_£',
                           'Stock', 'Description']
