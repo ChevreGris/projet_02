@@ -30,14 +30,12 @@ def get_book_info(url_book):
         image_url = img['src'].replace('../../', 'https://books.toscrape.com/')
         
         rating = product_rating(str(soup.find("p", class_="star-rating")))
-    
-    
 
-        informations_livre = {'titre' : titre , 'upc' : universal_product_code , 'note' : rating , 'categorie' : categorie , 'page_url' : url_book , 'image_url' : image_url , 'prix_ht_in_£' : price_excluding_tax, 'prix_ttc_in_£' : price_including_tax , 'stock' : number_available_int , 'description' : descript }
+        download_image(image_url, titre, categorie)
+
+
+        informations_livre = {'Titre' : titre , 'UPC' : universal_product_code , 'Note' : rating , 'Categorie' : categorie , 'Page_url' : url_book , 'Image_url' : image_url , 'Prix_ht_en_£' : price_excluding_tax, 'Prix_ttc_en_£' : price_including_tax , 'Stock' : number_available_int , 'Description' : descript }
         return informations_livre
-
-
-
 
 def product_rating(rating):
     #fonction qui retourne la note d'un livre en int.
@@ -55,3 +53,14 @@ def product_rating(rating):
     else:
         rating = None
     return rating
+
+
+def download_image(image_url, titre, category_name):
+    #fonction qui telecharge l'image de chaques livres
+
+    response = requests.get(image_url)
+
+    file = open('Script_results/' + category_name + '/' + titre.replace('/',' ') + '.jpg', "wb")
+    file.write(response.content)
+    file.close()
+

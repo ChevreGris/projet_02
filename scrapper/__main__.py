@@ -1,19 +1,33 @@
-from os import write
+
 import requests
 from bs4 import BeautifulSoup
 import csv
+import os
 
 from detail_book_info import get_book_info
 from detail_book_url import get_all_books_links
 from detail_category_url import get_category_urls_and_names
 
+
 if __name__ == '__main__':
 
     main_url = 'http://books.toscrape.com'
     
+    os.mkdir('Script_results')
+
     for category_url, category_name in get_category_urls_and_names(main_url):
-        with open(category_name + '.csv', 'w', newline='') as csvfile:
-            fieldnames = ['titre', 'upc', 'note', 'categorie', 'page_url', 'image_url', 'prix_ht_in_£', 'prix_ttc_in_£', 'stock', 'description']
+        os.mkdir('Script_results/' + category_name)
+        with open('Script_results/' + category_name + '/_' + category_name + '.csv', 'w', newline='') as csvfile:
+            fieldnames = ['Titre', 'UPC', 'Note', 'Categorie', 'Page_url', 'Image_url', 'Prix_ht_en_£', 'Prix_ttc_en_£', 'stock', 'Description']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+
             for book_link in get_all_books_links(category_url): 
-                writer.writerow(get_book_info(book_link))
+                writer.writerow(get_book_info(book_link)) 
+
+
+ 
+
+
+
+   
